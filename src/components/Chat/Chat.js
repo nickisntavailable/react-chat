@@ -14,12 +14,17 @@ let socket;
 const Chat = ({ location }) => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
+    //message: user | text | time
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [users, setUsers] = useState('');
+    //endpoint to server side
     const ENDPOINT = 'https://nicksreactchat.herokuapp.com/'; //'localhost:5000';
 
+
+    //effect uses on endopoint or search line changes
     useEffect( () => {
+        //take name and room from address line
         const {name, room} = queryString.parse(location.search);
 
         socket = io(ENDPOINT);
@@ -37,6 +42,7 @@ const Chat = ({ location }) => {
         
     }, [ENDPOINT, location.search]);
 
+    //effect uses on messages array changes
     useEffect(() => {
         socket.on('message', (message) => {
             setMessages([...messages, message]);
